@@ -229,7 +229,8 @@ func TestUsageMap_GetNestedOverride(t *testing.T) {
 		"aws_s3_bucket.example": map[string]interface{}{
 			"object_tags": 0,
 			"standard": map[string]interface{}{
-				"storage_gb": 200,
+				"storage_gb":              200,
+				"monthly_tier_1_requests": 300,
 			},
 			"intelligent_tiering": map[string]interface{}{
 				"frequent_access_storage_gb": 0,
@@ -242,6 +243,7 @@ func TestUsageMap_GetNestedOverride(t *testing.T) {
 
 	assert.Equal(t, 0.0, got.Get("object_tags").Float())
 	assert.Equal(t, 200.0, got.Get("standard").Get("storage_gb").Float())
+	assert.Equal(t, 300.0, got.Get("standard").Get("monthly_tier_1_requests").Float())
 
 	it := got.Get("intelligent_tiering")
 	assert.Equal(t, 0.0, it.Get("frequent_access_storage_gb").Float())
